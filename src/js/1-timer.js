@@ -5,16 +5,12 @@ import 'flatpickr/dist/flatpickr.min.css';
 import iziToast from 'izitoast';
 
 import 'izitoast/dist/css/iziToast.min.css';
-
-flatpickr(input, options);
-iziToast.show({
-  title: 'Hey',
-  message: 'Please choose a date in the future',
-});
-
+const divTimer = document.querySelector('.field');
 const input = document.querySelector('#datetime-picker');
-let userSelectedDate;
+let userSelectedDate = 0;
+
 const startBtn = document.querySelector('[data-start]');
+
 startBtn.disabled = true;
 const options = {
   enableTime: true,
@@ -23,34 +19,64 @@ const options = {
   minuteIncrement: 1,
   onClose(selectedDates) {
     console.log(selectedDates[0]);
-    if (selectedDates[0] < new Date()) {
-      alert('Please choose a date in the future');
+    if (selectedDates[0] < Date.now()) {
+      iziToast.show({
+        title: 'Error',
+        message: 'Illegal operation',
+      });
     }
-
     startBtn.disabled = false;
     userSelectedDate = selectedDates[0];
+    function addLeadingZero(value) {
+      return String(value).padStart(2, '0');
+    }
+
+    function convertMs(ms) {
+      // Number of milliseconds per unit of time
+      const second = 1000;
+      const minute = second * 60;
+      const hour = minute * 60;
+      const day = hour * 24;
+
+      // Remaining days
+      const days = Math.floor(ms / day);
+      // Remaining hours
+      const hours = Math.floor((ms % day) / hour);
+      // Remaining minutes
+      const minutes = Math.floor(((ms % day) % hour) / minute);
+      // Remaining seconds
+      const seconds = Math.floor((((ms % day) % hour) % minute) / second);
+
+      return { days, hours, minutes, seconds };
+    }
+
+    startBtn.addEventListener('click', onBtnClick);
+    function onBtnClick() {
+      const intervalId = setInterval(() => {
+        const currentTime = Date.now();
+        startBtn.disabled = true;
+        const diff = selectedDates[0] - currentTime;
+        console.log(diff);
+        const { days, hours, minutes, seconds } = convertMs(diff);
+        if (diff > 0) {
+          document.querySelector('[data-days]').textContent =
+            addLeadingZero(days);
+          document.querySelector('[data-hours]').textContent =
+            addLeadingZero(hours);
+          document.querySelector('[data-minutes]').textContent =
+            addLeadingZero(minutes);
+          document.querySelector('[data-seconds]').textContent =
+            addLeadingZero(seconds);
+        } else {
+          clearInterval(intervalId);
+          document.querySelector('[data-days]').textContent = '00';
+          document.querySelector('[data-hours]').textContent = '00';
+          document.querySelector('[data-minutes]').textContent = '00';
+          document.querySelector('[data-seconds]').textContent = '00';
+        }
+      }, 1000);
+    }
   },
 };
-startBtn.addEventListener('click', onBtnClick);
-function onBtnClick() {}
 
-function addLeadingZero(value) {}
-
-function convertMs(ms) {
-  // Number of milliseconds per unit of time
-  const second = 1000;
-  const minute = second * 60;
-  const hour = minute * 60;
-  const day = hour * 24;
-
-  // Remaining days
-  const days = Math.floor(ms / day);
-  // Remaining hours
-  const hours = Math.floor((ms % day) / hour);
-  // Remaining minutes
-  const minutes = Math.floor(((ms % day) % hour) / minute);
-  // Remaining seconds
-  const seconds = Math.floor((((ms % day) % hour) % minute) / second);
-
-  return { days, hours, minutes, seconds };
-}
+flatpickr(input, options);
