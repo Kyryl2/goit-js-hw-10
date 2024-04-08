@@ -23,6 +23,8 @@ const options = {
       iziToast.show({
         title: 'Error',
         message: 'Illegal operation',
+        position: 'topRight',
+        color: 'red',
       });
     }
     startBtn.disabled = false;
