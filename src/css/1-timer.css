@@ -12,15 +12,39 @@
   height: 40px;
   margin: 0;
 }
-button {
+.not-active {
   border-radius: 8px;
   padding: 8px 16px;
   width: 75px;
   height: 40px;
   background: #cfcfcf;
   margin: 0;
+  border: none;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 1.5;
+  letter-spacing: 0.04em;
+  color: #989898;
 }
-
+.is-active {
+  border-radius: 8px;
+  padding: 8px 16px;
+  width: 75px;
+  height: 40px;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 1.5;
+  letter-spacing: 0.04em;
+  color: #fff;
+  background-color: #4e75ff;
+  border: none;
+}
+.is-active:hover {
+  background: #6c8cff;
+  border: none;
+}
 .timer {
   display: flex;
   gap: 24px;

@@ -10,7 +10,7 @@ const input = document.querySelector('#datetime-picker');
 let userSelectedDate = 0;
 
 const startBtn = document.querySelector('[data-start]');
-
+startBtn.classList.add('not-active');
 startBtn.disabled = true;
 const options = {
   enableTime: true,
@@ -28,6 +28,8 @@ const options = {
       });
     }
     startBtn.disabled = false;
+    startBtn.classList.remove('not-active');
+    startBtn.classList.add('is-active');
     userSelectedDate = selectedDates[0];
     // console.log(userSelectedDate);
   },
@@ -63,6 +65,9 @@ function onBtnClick() {
   const intervalId = setInterval(() => {
     const currentTime = Date.now();
     startBtn.disabled = true;
+    startBtn.classList.remove('is-active');
+    startBtn.classList.add('not-active');
+
     const diff = userSelectedDate - currentTime;
     // console.log(diff);
     const { days, hours, minutes, seconds } = convertMs(diff);
