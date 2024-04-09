@@ -18,7 +18,6 @@ const options = {
   defaultDate: new Date(),
   minuteIncrement: 1,
   onClose(selectedDates) {
-    // console.log(selectedDates[0]);
     if (selectedDates[0] < Date.now()) {
       iziToast.show({
         title: 'Error',
@@ -31,10 +30,8 @@ const options = {
     startBtn.classList.remove('not-active');
     startBtn.classList.add('is-active');
     userSelectedDate = selectedDates[0];
-    // console.log(userSelectedDate);
   },
 };
-console.log(userSelectedDate);
 
 function addLeadingZero(value) {
   return String(value).padStart(2, '0');
@@ -61,7 +58,6 @@ function convertMs(ms) {
 
 startBtn.addEventListener('click', onBtnClick);
 function onBtnClick() {
-  // console.log(userSelectedDate);
   const intervalId = setInterval(() => {
     const currentTime = Date.now();
     startBtn.disabled = true;
@@ -69,7 +65,7 @@ function onBtnClick() {
     startBtn.classList.add('not-active');
 
     const diff = userSelectedDate - currentTime;
-    // console.log(diff);
+
     const { days, hours, minutes, seconds } = convertMs(diff);
     if (diff > 0) {
       document.querySelector('[data-days]').textContent = addLeadingZero(days);
