@@ -70,7 +70,7 @@ button {
   border: none;
 }
 
-button:hover {
+.btn-snackbar:hover {
   background-color: #6c8cff;
   border: none;
 }
