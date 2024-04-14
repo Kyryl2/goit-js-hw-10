@@ -61,13 +61,14 @@ function convertMs(ms) {
 }
 
 startBtn.addEventListener('click', onBtnClick);
+
 function onBtnClick() {
   const intervalId = setInterval(() => {
     const currentTime = Date.now();
     startBtn.disabled = true;
     startBtn.classList.remove('is-active');
     startBtn.classList.add('not-active');
-
+    input.disabled = true;
     const diff = userSelectedDate - currentTime;
 
     const { days, hours, minutes, seconds } = convertMs(diff);
